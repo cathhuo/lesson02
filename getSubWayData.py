@@ -14,31 +14,36 @@ headers = {'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,imag
 
 
 res = s.get("https://baike.baidu.com/item/北京地铁/408485", allow_redirects=False, headers=headers)
-# print(res.encoding)
-# print(res.apparent_encoding)
+
 r = res.text
-# print(requests.utils.get_encodings_from_content(r)[0])
+print(requests.utils.get_encodings_from_content(r)[0])
 res_encoded = r.encode("ISO-8859-1").decode(requests.utils.get_encodings_from_content(r)[0])
+# res_encoded = res_encoded.encode('utf-8')
 
 print("-------------------------------------------------------------------------------")
-# b = r.encode("ISo-8859-1").decode(res.apparent_encoding)
-# print(b)
-import re
-soup = BeautifulSoup(res_encoded, "html.parser")
-pattern = r'<a\s+href="(.*?)"\s+target="_blank">\s+(\w+).*>'
-# ss = soup.find_all(re.compile(pattern))
 
-# print(ss)
+soup = BeautifulSoup(res_encoded, "html.parser")
 
 a_str = soup.select("a")
 # """
-#     <a href="/item/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%811%E5%8F%B7%E7%BA%BF" target="_blank">北京地铁1号线</a>
+#     <a ="/hrefitem/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%811%E5%8F%B7%E7%BA%BF" target="_blank">北京地铁1号线</a>
 # """
 # pattern = '\<a\s* href="(/item/\w+)"\s*target="_blank"\>(\w+)\<\/a\>'
-# import re
+
+import re
+from urllib.parse import unquote
 for a_s in a_str:
-    sss = re.findall(pattern, a_s)
-    if not sss:continue
-    print(sss)
+    pattern = r".*北京地铁.*线"
+    url = a_s.attrs.get("href")
+    if not url: continue
+    url = unquote(url)
+
+    print('************************************************')
+
+    subway_line = re.findall(pattern, url)
+    if not subway_line: continue
+    print(subway_line)
+
+
 
 
