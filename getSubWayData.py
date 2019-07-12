@@ -20,15 +20,9 @@ print(requests.utils.get_encodings_from_content(r)[0])
 res_encoded = r.encode("ISO-8859-1").decode(requests.utils.get_encodings_from_content(r)[0])
 # res_encoded = res_encoded.encode('utf-8')
 
-print("-------------------------------------------------------------------------------")
-
 soup = BeautifulSoup(res_encoded, "html.parser")
 
 a_str = soup.select("a")
-# """
-#     <a ="/hrefitem/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%811%E5%8F%B7%E7%BA%BF" target="_blank">北京地铁1号线</a>
-# """
-# pattern = '\<a\s* href="(/item/\w+)"\s*target="_blank"\>(\w+)\<\/a\>'
 
 import re
 from urllib.parse import unquote
@@ -37,8 +31,6 @@ for a_s in a_str:
     url = a_s.attrs.get("href")
     if not url: continue
     url = unquote(url)
-
-    print('************************************************')
 
     subway_line = re.findall(pattern, url)
     if not subway_line: continue

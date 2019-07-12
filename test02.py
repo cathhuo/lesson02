@@ -39,6 +39,25 @@ def getHTMLText(url):
     res = s.get(url, allow_redirects=False, headers=headers)
     res.encoding = res.apparent_encoding
     return res.text
+
+from bs4 import BeautifulSoup
+import bs4
+import re
+
+def getSites(text, table_class, find_tag, **kwargs):
+    sites = []
+    bsoup = BeautifulSoup(text, "html.parser")
+    table = bsoup.find("table", class_=table_class)
+
+    tds = table.find_all(find_tag,  attrs=kwargs)
+    for td in tds:
+        if not td: continue
+        # print(td)
+        sites.append(td.getText())
+    return sites
+
+
+
 # print(getHTMLText("https://baike.baidu.com/item/北京地铁1号线"))
 
 from urllib.parse import quote, unquote
@@ -50,10 +69,10 @@ print(unquote(href))
 
 
 
+if __name__ == "__main__":
 
-
-
-
+    html_text = getHTMLText("https://baike.baidu.com/item/北京地铁1号线")
+    print(getSites(html_text, "one", "td", colspan="1", rowspan="1"))
 
 
 
