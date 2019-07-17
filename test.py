@@ -21,11 +21,13 @@ if __name__ == "__main__":
     # pattern = r".*北京地铁.*线"
     # a = re.findall(pattern, "/北京item/地铁1号线")
     # print(a)
-    a = "/item/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81%E6%98%8C%E5%B9%B3%E7%BA%BF".encode("gbk")
-    print(a)
 
 
-
+    str = '<div class="para" label-module="para">（下一站：<a target=_blank href="/item/%E7%A6%8F%E5%AF%BF%E5%B2%AD%E7%AB%99/1827061" data-lemmaid="1827061">福寿岭站</a>）</div>' \
+          '<div class="para" label-module="para">距离2606米</div>'
+    pattern = r".*\（下一站：<a.*>(\w+)</a>\）.*距离(\d+)米.*"
+    aa = re.findall(pattern, str)
+    print(aa)
 
 
 
