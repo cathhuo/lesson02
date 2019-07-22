@@ -71,9 +71,11 @@ def getPerSiteInfo(site):
     s = requests.Session()
     res = s.get(fetch_url, headers=headers)
     res.encoding = res.apparent_encoding
-    print(res.text)
-    pattern =  r".*\（下一站：<a.*>(\w+)</a>\）.*距离(\d+)米.*"
+    # print(res.text)
 
+    # pattern = r".*（下一站：<a.*>(\w+)</a>）[.\n]*距离(\d+)米.*"
+    # pattern = r".*(（下一站：<a.*>(\w+)</a>）(.|\r\n)*距离(\d+)米).*"
+    pattern = r"(.|\r\n)*（下一站：<a.*>(\w+)</a>）</div>(.|\r\n)*距离(\d+)米(.|\r\n)*"
     aa = re.findall(pattern, res.text)
     print(aa)
     # bf = BeautifulSoup(res.text, "html.parser")
@@ -94,7 +96,7 @@ if __name__ == "__main__":
     one_line_site_list = getSites(html_text, "one", "td", colspan="1", rowspan="1")
     for index, site in enumerate(one_line_site_list):
         getPerSiteInfo(site)
-        break
+        # break
         # if index < len(one_line_site_list)-1:
         #     linesitesinfo[site].append(one_line_site_list[index+1])
         # else:
