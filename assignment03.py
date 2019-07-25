@@ -34,7 +34,13 @@ if __name__ == "__main__":
         return max(
             [price[n]] + [r(i) + r(n - i) for i in range(1, n)]
         )
-    print(r(89))
+    #
+    solution = defaultdict(list)
+
+
+
+
+
 
 
 

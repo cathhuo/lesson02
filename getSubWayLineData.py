@@ -1,4 +1,7 @@
 # -*- encoding:utf-8 -*-
+"""
+从百度百科爬取所有地铁线路
+"""
 
 import requests
 import urllib
@@ -26,6 +29,7 @@ a_str = soup.select("a")
 
 import re
 from urllib.parse import unquote
+lines = set()
 for a_s in a_str:
     pattern = r".*北京地铁.*线"
     url = a_s.attrs.get("href")
@@ -34,7 +38,10 @@ for a_s in a_str:
 
     subway_line = re.findall(pattern, url)
     if not subway_line: continue
-    print(subway_line)
+    # print(subway_line)
+    lines.add(subway_line[0])
+
+print(lines)
 
 
 
